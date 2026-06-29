@@ -1,0 +1,14 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Dependencies (none required, but just in case)
+node_modules/
+
+# Local server / tooling
+.vscode/
+.idea/
+
+# Exported media
+*.webm
