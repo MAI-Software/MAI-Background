@@ -32,6 +32,9 @@ const presets      = document.querySelectorAll('.preset');
 const bgImageInput = $('#bgImageInput');
 const bgVideoInput = $('#bgVideoInput');
 const edgeRange    = $('#edgeRange');
+const resSelect    = $('#resSelect');
+const qualitySelect = $('#qualitySelect');
+const srcInfo      = $('#srcInfo');
 
 const exportBtn    = $('#exportBtn');
 const exportBtnLabel = $('#exportBtnLabel');
@@ -52,6 +55,8 @@ const state = {
   modelReady: false,
   recording: false,
   rafId: null,
+  nativeW: 0,              // source video native dimensions
+  nativeH: 0,
 };
 
 let segmenter = null;
@@ -181,9 +186,13 @@ function loadVideoFile(file) {
 }
 
 async function onVideoReady() {
-  canvas.width = video.videoWidth || 1280;
-  canvas.height = video.videoHeight || 720;
-  stage.style.aspectRatio = `${canvas.width} / ${canvas.height}`;
+  state.nativeW = video.videoWidth || 1280;
+  state.nativeH = video.videoHeight || 720;
+  srcInfo.textContent = `Vídeo original: ${state.nativeW}×${state.nativeH}`;
+  // display box keeps the native aspect ratio; canvas internal size = export res
+  stage.style.aspectRatio = `${state.nativeW} / ${state.nativeH}`;
+  populateResolutions(state.nativeH);
+  applyResolution();
 
   if (!segmenter) initSegmenter();
 
@@ -205,6 +214,40 @@ function setStatus(text, show) {
   stageStatusText.textContent = text;
   stageStatus.hidden = !show;
 }
+
+/* ---------- Resolution / quality ---------- */
+// Offer only standard heights below the source (never upscale → never invents quality)
+function populateResolutions(nativeH) {
+  resSelect.querySelectorAll('option[data-dyn]').forEach((o) => o.remove());
+  [2160, 1440, 1080, 720, 480].filter((h) => h < nativeH).forEach((h) => {
+    const o = document.createElement('option');
+    o.value = String(h);
+    o.textContent = `${h}p`;
+    o.dataset.dyn = '1';
+    resSelect.appendChild(o);
+  });
+  resSelect.value = 'original';
+}
+
+// Canvas internal resolution = chosen export resolution (capped at native).
+function applyResolution() {
+  let w = state.nativeW, h = state.nativeH;
+  if (resSelect.value !== 'original') {
+    h = Math.min(Number(resSelect.value), state.nativeH);
+    w = Math.round((state.nativeW / state.nativeH) * h);
+  }
+  // even dimensions keep VP8/VP9 encoders happy
+  canvas.width = w - (w % 2);
+  canvas.height = h - (h % 2);
+}
+
+resSelect.addEventListener('change', () => {
+  applyResolution();
+  // repaint a frame so the change is visible even while paused
+  if (segmenter && state.modelReady && video.readyState >= 2) {
+    segmenter.send({ image: video }).catch(() => {});
+  }
+});
 
 /* ============================================================
    5. Transport controls
@@ -316,8 +359,9 @@ exportBtn.addEventListener('click', async () => {
     src.getAudioTracks().forEach((t) => stream.addTrack(t));
   } catch (e) { /* no audio track — export video only */ }
 
+  const bitrate = Number(qualitySelect.value) || 8_000_000;
   const chunks = [];
-  const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
+  const recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: bitrate });
   recorder.ondataavailable = (ev) => { if (ev.data.size) chunks.push(ev.data); };
   recorder.onstop = () => {
     const blob = new Blob(chunks, { type: 'video/webm' });
@@ -335,6 +379,10 @@ exportBtn.addEventListener('click', async () => {
   video.pause();
   video.currentTime = 0;
   await once(video, 'seeked');
+  // restart the background video so it's in sync from frame 0
+  if (state.bgMode === 'video' && state.bgVideo) {
+    try { state.bgVideo.currentTime = 0; await state.bgVideo.play(); } catch (e) {}
+  }
   recorder.start();
   await video.play();
 

@@ -74,6 +74,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 4px;
 }
 
+/* The [hidden] attribute must win over layout rules (display:flex/grid) */
+[hidden] { display: none !important; }
+
 .skip-link {
   position: absolute; left: 50%; top: -60px; transform: translateX(-50%);
   background: var(--color-primary); color: #fff; padding: 10px 18px;
@@ -269,6 +272,20 @@ input[type="color"] { width: 48px; height: 40px; border: 1px solid var(--color-b
 .preset-row { display: flex; gap: var(--s-2); }
 .preset { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--color-border-strong); background: var(--c); transition: transform var(--t-fast); }
 .preset:hover { transform: scale(1.12); }
+
+.field-label { font-size: 0.82rem; color: var(--color-text-2); font-weight: 500; }
+
+.select {
+  width: 100%; font: inherit; font-size: 0.9rem; color: var(--color-fg);
+  background: rgba(255,255,255,.04); border: 1px solid var(--color-border);
+  border-radius: var(--r-md); padding: 10px 12px; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238A90A6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+  transition: border-color var(--t-fast);
+}
+.select:hover { border-color: var(--color-border-strong); }
+.select option { background: var(--color-surface); color: var(--color-fg); }
 
 .file-input {
   width: 100%; font-size: 0.85rem; color: var(--color-text-2);
