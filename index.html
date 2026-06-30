@@ -2,22 +2,22 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0F172A" />
-  <title>MAI-Background — Elimina el fondo de tus videos con precisión</title>
-  <meta name="description" content="Editor de video web que elimina el fondo de personas en tiempo real. Sube un video, quita el fondo y crea montajes graciosos y originales. 100% en tu navegador." />
+  <title>MAI-Background — Quita el fondo de tus vídeos</title>
+  <meta name="description" content="App para móvil: graba o sube un vídeo y quita el fondo de la persona al instante. 100% en tu dispositivo." />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="MAI-Background" />
-  <meta property="og:description" content="Elimina el fondo de tus videos con precisión y crea montajes originales." />
+  <meta property="og:description" content="Quita el fondo de tus vídeos al instante, en tu móvil." />
   <meta property="og:type" content="website" />
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MAI-Background" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
@@ -25,308 +25,190 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <a class="skip-link" href="#editor">Saltar al editor</a>
-
-  <!-- ===================== HEADER ===================== -->
-  <header class="site-header" id="top">
-    <nav class="nav container" aria-label="Principal">
-      <a class="brand" href="#top" aria-label="MAI-Background inicio">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 7l9-4 9 4v10l-9 4-9-4V7z" />
-            <path d="M3 7l9 4 9-4" />
-            <path d="M12 11v10" />
+  <div class="app">
+    <!-- ===================== APP BAR ===================== -->
+    <header class="appbar">
+      <span class="appbar__brand">
+        <span class="appbar__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7l9-4 9 4v10l-9 4-9-4V7z" /><path d="M3 7l9 4 9-4" /><path d="M12 11v10" />
           </svg>
         </span>
-        <span class="brand__text">MAI<span class="brand__accent">-Background</span></span>
-      </a>
-      <div class="nav__links">
-        <a href="#features">Funciones</a>
-        <a href="#how">Cómo funciona</a>
-        <a href="#faq">FAQ</a>
-      </div>
-      <a class="btn btn--primary nav__cta" href="#editor">Abrir editor</a>
-    </nav>
-  </header>
+        <span class="appbar__title">MAI<span class="appbar__accent">-Background</span></span>
+      </span>
+      <button class="appbar__btn" id="infoBtn" aria-label="Información">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
+    </header>
 
-  <main>
-    <!-- ===================== HERO (Video-First) ===================== -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__bg" aria-hidden="true">
-        <div class="hero__glow hero__glow--1"></div>
-        <div class="hero__glow hero__glow--2"></div>
-        <div class="hero__grid"></div>
-      </div>
-      <div class="container hero__inner">
-        <p class="hero__eyebrow">
-          <span class="dot" aria-hidden="true"></span>
-          IA en tu navegador · sin subir nada a un servidor
-        </p>
-        <h1 id="hero-title" class="hero__title">
-          Elimina el fondo de tus videos
-          <span class="gradient-text">con precisión</span>
-        </h1>
-        <p class="hero__subtitle">
-          Sube un video, quita el fondo de la persona en tiempo real y crea
-          montajes graciosos y originales. Cambia el fondo por un color, una
-          imagen, otro video o déjalo transparente.
-        </p>
-        <div class="hero__actions">
-          <a class="btn btn--primary btn--lg" href="#editor">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
-            Empezar a editar
-          </a>
-          <a class="btn btn--ghost btn--lg" href="#how">Ver cómo funciona</a>
+    <main class="app-main">
+      <!-- ===================== HOME (sin vídeo) ===================== -->
+      <section class="screen home" id="home" aria-label="Inicio">
+        <div class="home__intro">
+          <span class="home__logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z" /><path d="M3 7l9 4 9-4" /><path d="M12 11v10" /></svg>
+          </span>
+          <h1 class="home__title">Quita el fondo de tus vídeos</h1>
+          <p class="home__sub">Graba o sube un vídeo. La IA borra el fondo de la persona al instante.</p>
         </div>
-        <ul class="hero__badges" aria-label="Características destacadas">
-          <li>100% privado</li>
-          <li>Sin marcas de agua</li>
-          <li>Exporta a WebM</li>
-          <li>Gratis</li>
-        </ul>
-      </div>
-    </section>
 
-    <!-- ===================== EDITOR ===================== -->
-    <section class="editor" id="editor" aria-labelledby="editor-title">
-      <div class="container">
-        <header class="section-head">
-          <h2 id="editor-title" class="section-title">Editor</h2>
-          <p class="section-sub">Todo el procesamiento ocurre en tu dispositivo.</p>
-        </header>
-
-        <!-- Upload state -->
-        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Subir un video. Arrastra y suelta o pulsa para elegir un archivo.">
+        <div class="dropzone" id="dropzone" aria-label="Zona para soltar un vídeo">
           <input type="file" id="fileInput" accept="video/*" hidden />
-          <div class="dropzone__inner">
-            <span class="dropzone__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
-            </span>
-            <p class="dropzone__title">Arrastra tu video aquí</p>
-            <p class="dropzone__hint">o pulsa para elegir un archivo · MP4, WebM, MOV</p>
+          <input type="file" id="camInput" accept="video/*" capture="user" hidden />
+
+          <button class="btn btn--primary btn--lg btn--block" id="recBtn">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg>
+            Grabar vídeo
+          </button>
+          <button class="btn btn--ghost btn--block" id="upBtn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+            Subir vídeo
+          </button>
+          <p class="dropzone__hint">o arrastra un vídeo aquí</p>
+        </div>
+
+        <p class="home__note">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100% en tu dispositivo · sin subidas
+        </p>
+      </section>
+
+      <!-- ===================== EDITOR (con vídeo) ===================== -->
+      <section class="screen workspace" id="workspace" aria-label="Editor" hidden>
+        <div class="stage" id="stage" data-bg="blur">
+          <canvas id="outputCanvas" class="stage__canvas" width="1280" height="720" aria-label="Vista previa del vídeo sin fondo"></canvas>
+          <video id="sourceVideo" class="stage__source" playsinline crossorigin="anonymous"></video>
+          <div class="stage__status" id="stageStatus" role="status" aria-live="polite">
+            <span class="spinner" aria-hidden="true"></span>
+            <span id="stageStatusText">Cargando modelo de IA…</span>
           </div>
         </div>
 
-        <!-- Workspace (hidden until a video is loaded) -->
-        <div class="workspace" id="workspace" hidden>
-          <div class="stage-wrap">
-            <div class="stage" id="stage" data-bg="blur">
-              <!-- checkerboard shows through when transparent -->
-              <canvas id="outputCanvas" class="stage__canvas" width="1280" height="720" aria-label="Vista previa del video sin fondo"></canvas>
-              <video id="sourceVideo" class="stage__source" playsinline crossorigin="anonymous"></video>
-              <div class="stage__status" id="stageStatus" role="status" aria-live="polite">
-                <span class="spinner" aria-hidden="true"></span>
-                <span id="stageStatusText">Cargando modelo de IA…</span>
-              </div>
-            </div>
+        <div class="transport" role="group" aria-label="Controles de reproducción">
+          <button class="icon-btn" id="playPauseBtn" aria-label="Reproducir">
+            <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 4l13 8-13 8V4z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" hidden><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+          </button>
+          <input type="range" id="seekBar" class="seek" min="0" max="100" value="0" step="0.1" aria-label="Posición del vídeo" />
+          <span class="time" id="timeLabel">0:00 / 0:00</span>
+          <button class="icon-btn" id="muteBtn" aria-label="Silenciar / activar audio">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19 9a5 5 0 0 1 0 6M22 6a9 9 0 0 1 0 12"/></svg>
+          </button>
+        </div>
 
-            <!-- Transport -->
-            <div class="transport" role="group" aria-label="Controles de reproducción">
-              <button class="icon-btn" id="playPauseBtn" aria-label="Reproducir">
-                <svg class="icon-play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 4l13 8-13 8V4z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" hidden><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
-              </button>
-              <input type="range" id="seekBar" class="seek" min="0" max="100" value="0" step="0.1" aria-label="Posición del video" />
-              <span class="time" id="timeLabel">0:00 / 0:00</span>
-              <button class="icon-btn" id="muteBtn" aria-label="Silenciar / activar audio">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19 9a5 5 0 0 1 0 6M22 6a9 9 0 0 1 0 12"/></svg>
-              </button>
+        <!-- Fondo: tira de opciones -->
+        <div class="tool">
+          <span class="tool__label">Fondo</span>
+          <div class="bg-strip" role="radiogroup" aria-label="Tipo de fondo">
+            <button class="bg-opt is-active" data-bg="blur" role="radio" aria-checked="true">
+              <span class="bg-opt__swatch swatch--blur" aria-hidden="true"></span><span class="bg-opt__txt">Desenfoque</span>
+            </button>
+            <button class="bg-opt" data-bg="transparent" role="radio" aria-checked="false">
+              <span class="bg-opt__swatch swatch--alpha" aria-hidden="true"></span><span class="bg-opt__txt">Transparente</span>
+            </button>
+            <button class="bg-opt" data-bg="color" role="radio" aria-checked="false">
+              <span class="bg-opt__swatch swatch--color" aria-hidden="true"></span><span class="bg-opt__txt">Color</span>
+            </button>
+            <button class="bg-opt" data-bg="image" role="radio" aria-checked="false">
+              <span class="bg-opt__swatch swatch--image" aria-hidden="true"></span><span class="bg-opt__txt">Imagen</span>
+            </button>
+            <button class="bg-opt" data-bg="video" role="radio" aria-checked="false">
+              <span class="bg-opt__swatch swatch--video" aria-hidden="true"></span><span class="bg-opt__txt">Vídeo</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="tool" id="ctrlColor" hidden>
+          <label class="tool__label" for="bgColor">Color de fondo</label>
+          <div class="color-row">
+            <input type="color" id="bgColor" value="#10B981" aria-label="Elegir color de fondo" />
+            <div class="preset-row" aria-label="Colores rápidos">
+              <button class="preset" style="--c:#10B981" data-color="#10B981" aria-label="Verde croma"></button>
+              <button class="preset" style="--c:#2563EB" data-color="#2563EB" aria-label="Azul"></button>
+              <button class="preset" style="--c:#EC4899" data-color="#EC4899" aria-label="Rosa"></button>
+              <button class="preset" style="--c:#0F172A" data-color="#0F172A" aria-label="Negro"></button>
+              <button class="preset" style="--c:#FFFFFF" data-color="#FFFFFF" aria-label="Blanco"></button>
             </div>
           </div>
+        </div>
 
-          <!-- Controls panel -->
-          <aside class="panel" aria-label="Opciones de fondo">
-            <div class="panel__group">
-              <h3 class="panel__heading">Fondo</h3>
-              <div class="bg-grid" role="radiogroup" aria-label="Tipo de fondo">
-                <button class="bg-opt is-active" data-bg="blur" role="radio" aria-checked="true">
-                  <span class="bg-opt__swatch swatch--blur" aria-hidden="true"></span>Desenfoque
-                </button>
-                <button class="bg-opt" data-bg="transparent" role="radio" aria-checked="false">
-                  <span class="bg-opt__swatch swatch--alpha" aria-hidden="true"></span>Transparente
-                </button>
-                <button class="bg-opt" data-bg="color" role="radio" aria-checked="false">
-                  <span class="bg-opt__swatch swatch--color" aria-hidden="true"></span>Color
-                </button>
-                <button class="bg-opt" data-bg="image" role="radio" aria-checked="false">
-                  <span class="bg-opt__swatch swatch--image" aria-hidden="true"></span>Imagen
-                </button>
-                <button class="bg-opt" data-bg="video" role="radio" aria-checked="false">
-                  <span class="bg-opt__swatch swatch--video" aria-hidden="true"></span>Video
-                </button>
-              </div>
-            </div>
+        <div class="tool" id="ctrlImage" hidden>
+          <label class="tool__label" for="bgImageInput">Imagen de fondo</label>
+          <input type="file" id="bgImageInput" accept="image/*" class="file-input" />
+        </div>
 
-            <!-- Conditional controls -->
-            <div class="panel__group" id="ctrlColor" hidden>
-              <label class="panel__heading" for="bgColor">Color de fondo</label>
-              <div class="color-row">
-                <input type="color" id="bgColor" value="#10B981" aria-label="Elegir color de fondo" />
-                <div class="preset-row" aria-label="Colores rápidos">
-                  <button class="preset" style="--c:#10B981" data-color="#10B981" aria-label="Verde croma"></button>
-                  <button class="preset" style="--c:#2563EB" data-color="#2563EB" aria-label="Azul"></button>
-                  <button class="preset" style="--c:#EC4899" data-color="#EC4899" aria-label="Rosa"></button>
-                  <button class="preset" style="--c:#0F172A" data-color="#0F172A" aria-label="Negro"></button>
-                  <button class="preset" style="--c:#FFFFFF" data-color="#FFFFFF" aria-label="Blanco"></button>
-                </div>
-              </div>
-            </div>
+        <div class="tool" id="ctrlVideo" hidden>
+          <label class="tool__label" for="bgVideoInput">Vídeo de fondo</label>
+          <input type="file" id="bgVideoInput" accept="video/*" class="file-input" />
+        </div>
 
-            <div class="panel__group" id="ctrlImage" hidden>
-              <label class="panel__heading" for="bgImageInput">Imagen de fondo</label>
-              <input type="file" id="bgImageInput" accept="image/*" class="file-input" />
-            </div>
+        <div class="tool">
+          <label class="tool__label" for="edgeRange">Suavizado de bordes</label>
+          <input type="range" id="edgeRange" min="0" max="10" value="3" step="1" aria-label="Suavizado de bordes" />
+        </div>
 
-            <div class="panel__group" id="ctrlVideo" hidden>
-              <label class="panel__heading" for="bgVideoInput">Video de fondo</label>
-              <input type="file" id="bgVideoInput" accept="video/*" class="file-input" />
-            </div>
-
-            <div class="panel__group">
-              <label class="panel__heading" for="edgeRange">Suavizado de bordes</label>
-              <input type="range" id="edgeRange" min="0" max="10" value="3" step="1" aria-label="Suavizado de bordes" />
-            </div>
-
-            <div class="panel__group">
-              <h3 class="panel__heading">Calidad y resolución</h3>
-              <p class="panel__note" id="srcInfo">Vídeo original: —</p>
-              <label class="field-label" for="resSelect">Resolución de exportación</label>
+        <div class="tool">
+          <span class="tool__label">Calidad y resolución</span>
+          <p class="tool__note" id="srcInfo">Vídeo original: —</p>
+          <div class="field-grid">
+            <label class="field-cell">
+              <span class="field-cap">Resolución</span>
               <select id="resSelect" class="select" aria-label="Resolución de exportación">
                 <option value="original">Original (máxima)</option>
               </select>
-              <label class="field-label" for="qualitySelect">Calidad de exportación</label>
+            </label>
+            <label class="field-cell">
+              <span class="field-cap">Calidad</span>
               <select id="qualitySelect" class="select" aria-label="Calidad de exportación">
-                <option value="16000000">Máxima — mejor calidad</option>
+                <option value="16000000">Máxima</option>
                 <option value="8000000">Alta</option>
                 <option value="4000000">Media</option>
-                <option value="2000000">Baja — archivo ligero</option>
+                <option value="2000000">Baja</option>
               </select>
-            </div>
-
-            <div class="panel__group">
-              <h3 class="panel__heading">Exportar</h3>
-              <button class="btn btn--primary btn--block" id="exportBtn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-                <span id="exportBtnLabel">Grabar y exportar</span>
-              </button>
-              <p class="panel__note" id="exportNote">Reproduce el resultado de inicio a fin para grabarlo (WebM).</p>
-              <div class="export-progress" id="exportProgress" hidden>
-                <div class="export-progress__bar"><span id="exportBar"></span></div>
-              </div>
-            </div>
-
-            <div class="panel__group">
-              <button class="btn btn--ghost btn--block" id="newVideoBtn">Cargar otro video</button>
-            </div>
-          </aside>
+            </label>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ===================== FEATURES ===================== -->
-    <section class="features" id="features" aria-labelledby="features-title">
-      <div class="container">
-        <header class="section-head">
-          <h2 id="features-title" class="section-title">Hecho para crear sin fricción</h2>
-          <p class="section-sub">Potente, privado y rápido. Sin instalaciones.</p>
-        </header>
-        <div class="cards">
-          <article class="card">
-            <span class="card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M8 12l3 3 5-6"/></svg>
-            </span>
-            <h3>Precisión en tiempo real</h3>
-            <p>Segmentación de personas cuadro a cuadro con IA, directamente en tu navegador.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z"/><path d="M3 9h18M9 5v14"/></svg>
-            </span>
-            <h3>Fondos a tu gusto</h3>
-            <p>Transparente, color croma, desenfoque, una imagen o incluso otro video.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
-            </span>
-            <h3>Conserva el audio</h3>
-            <p>El sonido original se mantiene en el video exportado, listo para compartir.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </span>
-            <h3>100% privado</h3>
-            <p>Tus videos nunca salen de tu dispositivo. Cero subidas, cero servidores.</p>
-          </article>
+        <div class="export-progress" id="exportProgress" hidden>
+          <div class="export-progress__bar"><span id="exportBar"></span></div>
         </div>
-      </div>
-    </section>
+        <p class="tool__note center" id="exportNote">Reproduce el resultado de inicio a fin para grabarlo (WebM).</p>
+      </section>
+    </main>
 
-    <!-- ===================== HOW IT WORKS ===================== -->
-    <section class="how" id="how" aria-labelledby="how-title">
-      <div class="container">
-        <header class="section-head">
-          <h2 id="how-title" class="section-title">Cómo funciona</h2>
-          <p class="section-sub">Tres pasos, sin curva de aprendizaje.</p>
-        </header>
-        <ol class="steps">
-          <li class="step">
-            <span class="step__num">1</span>
-            <h3>Sube tu video</h3>
-            <p>Arrastra un clip de una persona (selfie, baile, presentación…).</p>
-          </li>
-          <li class="step">
-            <span class="step__num">2</span>
-            <h3>Elige el fondo</h3>
-            <p>Quita el fondo o reemplázalo por color, imagen o video.</p>
-          </li>
-          <li class="step">
-            <span class="step__num">3</span>
-            <h3>Exporta y comparte</h3>
-            <p>Graba el resultado y descárgalo para tus montajes.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ===================== FAQ ===================== -->
-    <section class="faq" id="faq" aria-labelledby="faq-title">
-      <div class="container container--narrow">
-        <header class="section-head">
-          <h2 id="faq-title" class="section-title">Preguntas frecuentes</h2>
-        </header>
-        <details class="qa">
-          <summary>¿Mis videos se suben a algún servidor?</summary>
-          <p>No. Todo el procesamiento ocurre localmente en tu navegador gracias a MediaPipe. Tus archivos nunca salen de tu dispositivo.</p>
-        </details>
-        <details class="qa">
-          <summary>¿Funciona con cualquier video?</summary>
-          <p>Está optimizado para videos donde aparece una persona. La IA separa a la persona del fondo, ideal para selfies, bailes y presentaciones.</p>
-        </details>
-        <details class="qa">
-          <summary>¿En qué formato se exporta?</summary>
-          <p>El resultado se graba en WebM (VP9/VP8) conservando el audio original. Para fondos transparentes se exporta con canal alfa cuando el navegador lo permite.</p>
-        </details>
-        <details class="qa">
-          <summary>¿Puedo instalarlo como app?</summary>
-          <p>Sí. MAI-Background es una PWA: desde el menú de tu navegador puedes "Instalar app" y usarla como una aplicación de escritorio o móvil.</p>
-        </details>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===================== FOOTER ===================== -->
-  <footer class="site-footer">
-    <div class="container footer__inner">
-      <span class="brand brand--sm">
-        <span class="brand__text">MAI<span class="brand__accent">-Background</span></span>
-      </span>
-      <p class="footer__note">Hecho por MAI Software · Procesamiento 100% local</p>
+    <!-- ===================== ACTION BAR (editor) ===================== -->
+    <div class="actionbar" id="actionbar" hidden>
+      <button class="btn btn--ghost" id="newVideoBtn" aria-label="Cargar otro vídeo">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+      <button class="btn btn--primary btn--block" id="exportBtn">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        <span id="exportBtnLabel">Grabar y exportar</span>
+      </button>
     </div>
-  </footer>
+  </div>
 
-  <!-- MediaPipe Selfie Segmentation -->
+  <!-- ===================== INFO SHEET ===================== -->
+  <div class="sheet" id="infoSheet" hidden>
+    <div class="sheet__backdrop" data-close></div>
+    <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="sheet__grip" aria-hidden="true"></div>
+      <div class="sheet__head">
+        <h2 id="sheetTitle">MAI-Background</h2>
+        <button class="appbar__btn" data-close aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <ol class="steps">
+        <li><span class="steps__n">1</span><div><strong>Graba o sube</strong><p>Un vídeo donde aparezca una persona.</p></div></li>
+        <li><span class="steps__n">2</span><div><strong>Elige el fondo</strong><p>Transparente, color, desenfoque, imagen u otro vídeo.</p></div></li>
+        <li><span class="steps__n">3</span><div><strong>Exporta</strong><p>Graba el resultado en WebM con su audio.</p></div></li>
+      </ol>
+      <p class="sheet__note">Todo el procesamiento ocurre en tu dispositivo con IA (MediaPipe). Tus vídeos no se suben a ningún servidor. Optimizado para clips de una persona.</p>
+      <p class="sheet__foot">Instálala como app desde el menú de tu navegador · Hecho por MAI Software</p>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
   <script src="js/app.js" type="module"></script>
 </body>

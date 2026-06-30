@@ -7,9 +7,16 @@
 /* ---------- DOM ---------- */
 const $ = (sel) => document.querySelector(sel);
 
+const home         = $('#home');
 const dropzone     = $('#dropzone');
 const fileInput    = $('#fileInput');
+const camInput     = $('#camInput');
+const recBtn       = $('#recBtn');
+const upBtn        = $('#upBtn');
 const workspace    = $('#workspace');
+const actionbar    = $('#actionbar');
+const infoBtn      = $('#infoBtn');
+const infoSheet    = $('#infoSheet');
 const stage        = $('#stage');
 const canvas       = $('#outputCanvas');
 const video        = $('#sourceVideo');
@@ -177,12 +184,12 @@ function loadVideoFile(file) {
   video.muted = false;
   video.currentTime = 0;
 
+  home.hidden = true;
   workspace.hidden = false;
-  dropzone.hidden = true;
+  actionbar.hidden = false;
   setStatus('Cargando modelo de IA…', true);
 
   video.addEventListener('loadedmetadata', onVideoReady, { once: true });
-  workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 async function onVideoReady() {
@@ -425,11 +432,17 @@ function once(el, ev) {
 /* ============================================================
    8. Upload wiring
    ============================================================ */
-dropzone.addEventListener('click', () => fileInput.click());
-dropzone.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
-});
+recBtn.addEventListener('click', () => camInput.click());
+upBtn.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', (e) => loadVideoFile(e.target.files[0]));
+camInput.addEventListener('change', (e) => loadVideoFile(e.target.files[0]));
+
+// Info sheet
+function openSheet() { infoSheet.hidden = false; }
+function closeSheet() { infoSheet.hidden = true; }
+infoBtn.addEventListener('click', openSheet);
+infoSheet.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeSheet));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !infoSheet.hidden) closeSheet(); });
 
 ['dragenter', 'dragover'].forEach((ev) =>
   dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('is-dragover'); }));
@@ -443,9 +456,10 @@ dropzone.addEventListener('drop', (e) => {
 newVideoBtn.addEventListener('click', () => {
   video.pause();
   workspace.hidden = true;
-  dropzone.hidden = false;
+  actionbar.hidden = true;
+  home.hidden = false;
   fileInput.value = '';
-  dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  camInput.value = '';
 });
 
 function revokeUrls() {
