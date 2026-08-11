@@ -1,8 +1,11 @@
 /* ============================================================
    MAI-Background — App logic
-   Real-time person background removal with MediaPipe Selfie
-   Segmentation. All processing is local (in-browser).
+   Person background removal with Robust Video Matting (RVM),
+   a recurrent alpha-matting model. All processing is local
+   (in-browser, WebGPU/WASM). See js/rvm.js.
    ============================================================ */
+
+import { RVM } from './rvm.js';
 
 /* ---------- DOM ---------- */
 const $ = (sel) => document.querySelector(sel);
@@ -56,7 +59,7 @@ const ctx = canvas.getContext('2d');
 const state = {
   bgMode: 'blur',          // blur | transparent | color | image | video
   color: '#10B981',
-  edge: 3,                 // mask edge blur (px)
+  edge: 0,                 // edge feather (px); RVM alpha is soft, default off
   bgImage: null,           // HTMLImageElement
   bgVideo: null,           // HTMLVideoElement
   modelReady: false,
@@ -66,47 +69,29 @@ const state = {
   nativeH: 0,
 };
 
-let segmenter = null;
 let objectUrls = [];
 
 /* ============================================================
-   1. MediaPipe init
+   1. Frame compositing (RVM person cutout → chosen background)
    ============================================================ */
-function initSegmenter() {
-  if (typeof SelfieSegmentation === 'undefined') {
-    setStatus('No se pudo cargar el modelo de IA. Revisa tu conexión.', false);
-    return;
-  }
-  segmenter = new SelfieSegmentation({
-    locateFile: (file) =>
-      `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`,
-  });
-  segmenter.setOptions({ modelSelection: 1 }); // 1 = general (256x256), better quality
-  segmenter.onResults(onResults);
-}
+async function renderFrame() {
+  const person = await RVM.process(video);   // RGBA cutout at proc resolution
+  if (!person) return;
 
-/* ============================================================
-   2. Frame compositing
-   ============================================================ */
-function onResults(results) {
   const w = canvas.width;
   const h = canvas.height;
 
   ctx.save();
   ctx.clearRect(0, 0, w, h);
 
-  // Soften the mask edges
+  // Optional edge feather (RVM alpha is already soft; default off)
   if (state.edge > 0) ctx.filter = `blur(${state.edge}px)`;
-  ctx.drawImage(results.segmentationMask, 0, 0, w, h);
+  ctx.drawImage(person, 0, 0, w, h);         // person + alpha, scaled to export res
   ctx.filter = 'none';
-
-  // Keep only the person (pixels where mask is opaque)
-  ctx.globalCompositeOperation = 'source-in';
-  ctx.drawImage(results.image, 0, 0, w, h);
 
   // Paint the chosen background behind the person
   ctx.globalCompositeOperation = 'destination-over';
-  paintBackground(ctx, results.image, w, h);
+  paintBackground(ctx, video, w, h);
 
   ctx.restore(); // resets filter + globalCompositeOperation
 }
@@ -159,9 +144,9 @@ function drawCover(c, src, w, h, zoom = 1) {
    3. Render loop
    ============================================================ */
 async function renderLoop() {
-  if (segmenter && state.modelReady && !video.paused && !video.ended && video.readyState >= 2) {
+  if (state.modelReady && !video.paused && !video.ended && video.readyState >= 2) {
     try {
-      await segmenter.send({ image: video });
+      await renderFrame();   // awaited → RVM runs never overlap
     } catch (e) {
       // transient frame errors are non-fatal
     }
@@ -201,15 +186,18 @@ async function onVideoReady() {
   populateResolutions(state.nativeH);
   applyResolution();
 
-  if (!segmenter) initSegmenter();
-
-  // Warm up the model on the first frame
   try {
+    if (!RVM.session) {
+      setStatus('Cargando IA de recorte…', true);
+      await RVM.init((p) => setStatus(`Cargando IA de recorte… ${p}%`, true));
+    }
+    RVM.setSize(state.nativeW, state.nativeH);
+    RVM.resetState();
     state.modelReady = true;
-    await segmenter.send({ image: video });
+    await renderFrame();   // warm up + first paint
     setStatus('', false);
   } catch (e) {
-    setStatus('Error al iniciar el modelo. Recarga la página.', false);
+    setStatus('Error al iniciar la IA. Recarga la página.', false);
     return;
   }
 
@@ -251,9 +239,7 @@ function applyResolution() {
 resSelect.addEventListener('change', () => {
   applyResolution();
   // repaint a frame so the change is visible even while paused
-  if (segmenter && state.modelReady && video.readyState >= 2) {
-    segmenter.send({ image: video }).catch(() => {});
-  }
+  if (state.modelReady && video.readyState >= 2) renderFrame();
 });
 
 /* ============================================================
@@ -265,6 +251,8 @@ playPauseBtn.addEventListener('click', () => {
 video.addEventListener('play', () => { iconPlay.hidden = true; iconPause.hidden = false; playPauseBtn.setAttribute('aria-label', 'Pausar'); });
 video.addEventListener('pause', () => { iconPlay.hidden = false; iconPause.hidden = true; playPauseBtn.setAttribute('aria-label', 'Reproducir'); });
 video.addEventListener('ended', () => { iconPlay.hidden = false; iconPause.hidden = true; });
+// Temporal memory assumes frame continuity — reset it whenever the user seeks.
+video.addEventListener('seeking', () => { if (RVM.session) RVM.resetState(); });
 
 video.addEventListener('timeupdate', updateTime);
 function updateTime() {

@@ -1,15 +1,19 @@
 /* MAI-Background service worker — offline app shell */
-const CACHE = 'mai-background-v3';
+const CACHE = 'mai-background-v4';
 const ASSETS = [
   './',
   './index.html',
   './css/styles.css',
   './js/app.js',
+  './js/rvm.js',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
 ];
+// Note: the 14 MB ONNX model and the onnxruntime-web CDN files are cached
+// lazily on first use by the fetch handler below (not precached on install,
+// so a flaky first load can't abort the service-worker install).
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));

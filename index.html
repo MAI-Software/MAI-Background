@@ -144,7 +144,7 @@
 
         <div class="tool">
           <label class="tool__label" for="edgeRange">Suavizado de bordes</label>
-          <input type="range" id="edgeRange" min="0" max="10" value="3" step="1" aria-label="Suavizado de bordes" />
+          <input type="range" id="edgeRange" min="0" max="10" value="0" step="1" aria-label="Suavizado de bordes" />
         </div>
 
         <div class="tool">
@@ -204,12 +204,12 @@
         <li><span class="steps__n">2</span><div><strong>Elige el fondo</strong><p>Transparente, color, desenfoque, imagen u otro vídeo.</p></div></li>
         <li><span class="steps__n">3</span><div><strong>Exporta</strong><p>Graba el resultado en WebM con su audio.</p></div></li>
       </ol>
-      <p class="sheet__note">Todo el procesamiento ocurre en tu dispositivo con IA (MediaPipe). Tus vídeos no se suben a ningún servidor. Optimizado para clips de una persona.</p>
+      <p class="sheet__note">Todo el procesamiento ocurre en tu dispositivo con IA de matting (RVM). Tus vídeos no se suben a ningún servidor. Optimizado para clips de una persona.</p>
       <p class="sheet__foot">Instálala como app desde el menú de tu navegador · Hecho por MAI Software</p>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.23.0/dist/ort.webgpu.min.js"></script>
   <script src="js/app.js" type="module"></script>
 </body>
 </html>

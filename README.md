@@ -17,7 +17,7 @@ montajes graciosos y originales. Sin subir nada a un servidor.
 
 ## ✨ Qué hace
 
-- **Eliminación de fondo en tiempo real** de personas, cuadro a cuadro, con IA ([MediaPipe Selfie Segmentation](https://google.github.io/mediapipe/solutions/selfie_segmentation)).
+- **Recorte de personas con matting real** (canal alfa continuo, no máscara binaria), cuadro a cuadro, con [Robust Video Matting (RVM)](https://github.com/PeterL1n/RobustVideoMatting) — bordes, pelo y semitransparencias con precisión, y estabilidad temporal (sin parpadeo) gracias a su memoria recurrente.
 - **Fondos a elegir:**
   - 🫥 **Transparente** (canal alfa)
   - 🎨 **Color** sólido (con presets, incluido verde croma)
@@ -44,12 +44,13 @@ montajes graciosos y originales. Sin subir nada a un servidor.
 | Capa | Detalle |
 |------|---------|
 | UI | HTML + CSS (sin framework), tema Dark OLED, tipografía Inter |
-| IA | MediaPipe Selfie Segmentation (vía CDN, WASM/GPU en el navegador) |
-| Render | `<canvas>` 2D con compositing (`source-in` / `destination-over`) |
+| IA | Robust Video Matting (`rvm_mobilenetv3_fp32.onnx`) vía [onnxruntime-web](https://onnxruntime.ai/docs/tutorials/web/) — **WebGPU** con fallback a **WASM** |
+| Render | `<canvas>` 2D con compositing (`destination-over`) |
 | Export | `canvas.captureStream()` + `MediaRecorder` (VP9/VP8 + audio) |
 | App | PWA (manifest + service worker, offline-first) |
 
-No requiere build. Es HTML/CSS/JS estático.
+No requiere build. Es HTML/CSS/JS estático. El modelo (~14 MB) se sirve
+desde `models/` y se cachea en el dispositivo tras la primera carga.
 
 ## 💻 Desarrollo local
 
@@ -74,10 +75,16 @@ https://mai-software.github.io/MAI-Background/
 
 ## ⚠️ Compatibilidad
 
-- Chrome / Edge / navegadores Chromium: soporte completo (recomendado).
-- Firefox: soportado (`mozCaptureStream`).
-- Safari: la segmentación funciona; el formato de exportación WebM puede variar.
+- Chrome / Edge / Chromium con **WebGPU**: rendimiento óptimo (recomendado).
+- Sin WebGPU: cae a WASM (single-thread) — funciona, pero más lento.
+- Safari: matting funciona; el formato de exportación WebM puede variar.
 
 ## 📄 Licencia
 
-[MIT](LICENSE) © MAI Software
+Código de la app: [MIT](LICENSE) © MAI Software.
+
+**Modelo RVM:** el archivo `models/rvm_mobilenetv3_fp32.onnx` proviene de
+[PeterL1n/RobustVideoMatting](https://github.com/PeterL1n/RobustVideoMatting),
+bajo **GPL-3.0**. Redistribuirlo implica que esa distribución queda sujeta a
+GPL-3.0. Revisa esta condición antes de cualquier uso comercial o distribución
+pública del producto.
