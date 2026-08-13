@@ -369,28 +369,26 @@ input[type="color"], input[type="range"] { cursor: pointer; }
   .appbar { position: sticky; top: 0; padding-inline: max(var(--s-5), calc((100% - 1120px) / 2)); }
   .actionbar { position: sticky; bottom: 0; }
 
-  .screen { max-width: 880px; margin-inline: auto; width: 100%; padding: var(--s-6) var(--s-5) calc(var(--s-6) * 2); gap: var(--s-6); }
+  /* ONE centered content column — every section shares these edges */
+  .screen { max-width: 720px; margin-inline: auto; width: 100%; padding: var(--s-6) var(--s-5) calc(var(--s-6) * 2); gap: var(--s-6); }
   .home { justify-content: flex-start; }
 
   .home__intro { gap: var(--s-4); padding-top: var(--s-5); }
-  .home__title { font-size: clamp(2.2rem, 4vw, 3rem); }
-  .home__sub { font-size: 1.08rem; max-width: 50ch; }
+  .home__title { font-size: clamp(2.1rem, 4vw, 2.8rem); }
+  .home__sub { font-size: 1.06rem; max-width: 48ch; margin-inline: auto; }
 
-  /* action-first blocks keep a comfortable reading width */
-  .home__intro, .dropzone, .privacy,
-  .home > [aria-labelledby="h-apk"] { max-width: 560px; margin-inline: auto; width: 100%; }
+  /* Primary action buttons stay sized inside their full-width cards */
+  .dropzone .btn, .download .btn { max-width: 400px; margin-inline: auto; }
+  /* Readable measure for body copy, aligned to the shared left edge */
+  .section__text { max-width: 62ch; }
+
+  /* Features: 2 x 2 within the column */
+  .features__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (min-width: 768px) {
-  .steps { flex-direction: row; gap: var(--s-3); }
+  .steps { flex-direction: row; gap: var(--s-4); }
   .steps li { flex: 1; }
-  .features__grid { grid-template-columns: repeat(2, 1fr); }
-  .faq, .section__text, .section .link-row { max-width: 680px; margin-inline: auto; width: 100%; }
-  .workspace { max-width: 780px; }
-}
-
-@media (min-width: 1024px) {
-  .features__grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ---------------- Reduced motion ---------------- */
