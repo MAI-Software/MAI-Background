@@ -13,13 +13,9 @@ const $ = (sel) => document.querySelector(sel);
 const home         = $('#home');
 const dropzone     = $('#dropzone');
 const fileInput    = $('#fileInput');
-const camInput     = $('#camInput');
-const recBtn       = $('#recBtn');
 const upBtn        = $('#upBtn');
 const workspace    = $('#workspace');
 const actionbar    = $('#actionbar');
-const infoBtn      = $('#infoBtn');
-const infoSheet    = $('#infoSheet');
 const stage        = $('#stage');
 const canvas       = $('#outputCanvas');
 const video        = $('#sourceVideo');
@@ -367,9 +363,9 @@ exportBtn.addEventListener('click', async () => {
   // Restart playback from the beginning and record to the end
   state.recording = true;
   exportBtn.disabled = true;
-  exportBtnLabel.textContent = 'Grabando…';
+  exportBtnLabel.textContent = 'Exportando…';
   exportProgress.hidden = false;
-  exportNote.textContent = 'No cierres esta pestaña. Grabando de inicio a fin…';
+  exportNote.textContent = 'No cierres esta pestaña. Procesando de inicio a fin…';
 
   video.pause();
   video.currentTime = 0;
@@ -395,8 +391,8 @@ exportBtn.addEventListener('click', async () => {
 function finishExport() {
   state.recording = false;
   exportBtn.disabled = false;
-  exportBtnLabel.textContent = 'Grabar y exportar';
-  exportNote.textContent = 'Reproduce el resultado de inicio a fin para grabarlo (WebM).';
+  exportBtnLabel.textContent = 'Exportar vídeo';
+  exportNote.textContent = 'Se reproduce de inicio a fin para generar el WebM.';
   exportBar.style.width = '0%';
   exportProgress.hidden = true;
 }
@@ -420,17 +416,8 @@ function once(el, ev) {
 /* ============================================================
    8. Upload wiring
    ============================================================ */
-recBtn.addEventListener('click', () => camInput.click());
 upBtn.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', (e) => loadVideoFile(e.target.files[0]));
-camInput.addEventListener('change', (e) => loadVideoFile(e.target.files[0]));
-
-// Info sheet
-function openSheet() { infoSheet.hidden = false; }
-function closeSheet() { infoSheet.hidden = true; }
-infoBtn.addEventListener('click', openSheet);
-infoSheet.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeSheet));
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !infoSheet.hidden) closeSheet(); });
 
 ['dragenter', 'dragover'].forEach((ev) =>
   dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('is-dragover'); }));
@@ -447,7 +434,6 @@ newVideoBtn.addEventListener('click', () => {
   actionbar.hidden = true;
   home.hidden = false;
   fileInput.value = '';
-  camInput.value = '';
 });
 
 function revokeUrls() {

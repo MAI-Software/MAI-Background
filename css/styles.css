@@ -259,6 +259,75 @@ input[type="color"] { width: 52px; height: 44px; border: 1px solid var(--color-b
 .sheet__note { color: var(--color-text-2); font-size: 0.86rem; margin-top: var(--s-4); line-height: 1.5; }
 .sheet__foot { color: var(--color-text-3); font-size: 0.8rem; margin-top: var(--s-3); }
 
+/* ---------------- Landing sections (home) ---------------- */
+.home { justify-content: flex-start; padding-block: var(--s-5); }
+
+a.btn, .appbar__btn { text-decoration: none; }
+
+/* Privacy / safety banner */
+.privacy {
+  display: flex; gap: var(--s-3); align-items: flex-start;
+  padding: var(--s-4); border-radius: var(--r-md);
+  background: rgba(16,185,129,.08); border: 1px solid rgba(16,185,129,.25);
+}
+.privacy__icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--r-sm); background: rgba(16,185,129,.15); color: var(--color-success); }
+.privacy__title { display: block; font-size: 0.95rem; font-weight: 600; }
+.privacy__text { color: var(--color-text-2); font-size: 0.85rem; margin-top: 4px; line-height: 1.5; }
+
+/* Generic section */
+.section { display: flex; flex-direction: column; gap: var(--s-3); }
+.section__title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; color: var(--color-fg); }
+.section__text { color: var(--color-text-2); font-size: 0.9rem; line-height: 1.6; }
+.section__text strong { color: var(--color-fg); font-weight: 600; }
+
+/* Link row (repo) */
+.link-row {
+  display: flex; align-items: center; gap: var(--s-3);
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-md);
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  text-decoration: none; color: var(--color-fg);
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.link-row:hover { border-color: var(--color-border-strong); background: var(--color-surface-2); }
+.link-row__icon { flex: none; color: var(--color-fg); }
+.link-row__body { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.link-row__body strong { font-size: 0.92rem; font-weight: 600; }
+.link-row__sub { font-size: 0.8rem; color: var(--color-text-3); }
+.link-row__chev { flex: none; color: var(--color-text-3); }
+
+/* Download (Android) card */
+.download { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-4); border-radius: var(--r-md); background: var(--color-surface); border: 1px solid var(--color-border); }
+.download__head { display: flex; gap: var(--s-3); align-items: flex-start; }
+.download__icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--r-sm); background: rgba(37,99,235,.15); color: #60A5FA; }
+.download__text { color: var(--color-text-2); font-size: 0.88rem; line-height: 1.5; }
+.download__text strong { color: var(--color-fg); }
+.download__note { color: var(--color-text-3); font-size: 0.78rem; line-height: 1.5; }
+
+/* FAQ accordion (native <details>) */
+.faq { display: flex; flex-direction: column; gap: var(--s-2); }
+.faq__item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--r-sm); overflow: hidden; }
+.faq__item summary {
+  list-style: none; cursor: pointer; min-height: 48px;
+  padding: 13px var(--s-4); font-size: 0.9rem; font-weight: 500;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item[open] summary { color: var(--color-primary); }
+.faq__mark { flex: none; position: relative; width: 16px; height: 16px; }
+.faq__mark::before, .faq__mark::after { content: ''; position: absolute; background: currentColor; border-radius: 2px; transition: transform var(--t-fast); }
+.faq__mark::before { top: 7px; left: 2px; right: 2px; height: 2px; }
+.faq__mark::after { left: 7px; top: 2px; bottom: 2px; width: 2px; }
+.faq__item[open] .faq__mark::after { transform: scaleY(0); }
+.faq__item p { padding: 0 var(--s-4) 14px; color: var(--color-text-2); font-size: 0.86rem; line-height: 1.55; }
+
+/* Footer */
+.site-footer { margin-top: var(--s-4); padding-top: var(--s-5); border-top: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: center; gap: var(--s-2); text-align: center; }
+.site-footer__brand { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--color-fg); text-decoration: none; font-size: 0.9rem; transition: opacity var(--t-fast); }
+.site-footer__brand:hover { opacity: 0.8; }
+.site-footer__brand strong { font-weight: 700; }
+.site-footer__mark { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--grad-brand); color: #fff; }
+.site-footer__note { color: var(--color-text-3); font-size: 0.78rem; }
+
 /* ---------------- Reduced motion ---------------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }

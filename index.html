@@ -36,9 +36,9 @@
         </span>
         <span class="appbar__title">MAI<span class="appbar__accent">-Background</span></span>
       </span>
-      <button class="appbar__btn" id="infoBtn" aria-label="Información">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      </button>
+      <a class="appbar__btn" href="https://github.com/MAI-Software/MAI-Background" target="_blank" rel="noopener" aria-label="Ver código en GitHub">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a>
     </header>
 
     <main class="app-main">
@@ -49,28 +49,112 @@
             <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z" /><path d="M3 7l9 4 9-4" /><path d="M12 11v10" /></svg>
           </span>
           <h1 class="home__title">Quita el fondo de tus vídeos</h1>
-          <p class="home__sub">Graba o sube un vídeo. La IA borra el fondo de la persona al instante.</p>
+          <p class="home__sub">Sube un vídeo y la IA recorta a la persona con precisión — en tu propio dispositivo, sin subir nada.</p>
         </div>
 
         <div class="dropzone" id="dropzone" aria-label="Zona para soltar un vídeo">
           <input type="file" id="fileInput" accept="video/*" hidden />
-          <input type="file" id="camInput" accept="video/*" capture="user" hidden />
 
-          <button class="btn btn--primary btn--lg btn--block" id="recBtn">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg>
-            Grabar vídeo
-          </button>
-          <button class="btn btn--ghost btn--block" id="upBtn">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+          <button class="btn btn--primary btn--lg btn--block" id="upBtn">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
             Subir vídeo
           </button>
           <p class="dropzone__hint">o arrastra un vídeo aquí</p>
         </div>
 
-        <p class="home__note">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          100% en tu dispositivo · sin subidas
-        </p>
+        <!-- Privacidad / seguridad (siempre visible) -->
+        <div class="privacy" role="note">
+          <span class="privacy__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </span>
+          <div>
+            <strong class="privacy__title">Tus vídeos no salen de tu dispositivo</strong>
+            <p class="privacy__text">Todo el procesado ocurre en local, dentro de tu navegador. Sin servidores, sin subidas, sin cuentas. El código es abierto y puedes revisarlo.</p>
+          </div>
+        </div>
+
+        <!-- Cómo funciona -->
+        <section class="section" aria-labelledby="h-how">
+          <h2 class="section__title" id="h-how">Cómo funciona</h2>
+          <ol class="steps">
+            <li><span class="steps__n">1</span><div><strong>Sube tu vídeo</strong><p>Un clip donde aparezca una persona (baile, selfie, presentación).</p></div></li>
+            <li><span class="steps__n">2</span><div><strong>Elige el fondo</strong><p>Transparente, color, desenfoque, imagen u otro vídeo.</p></div></li>
+            <li><span class="steps__n">3</span><div><strong>Exporta</strong><p>Guarda el resultado en WebM, con su audio original.</p></div></li>
+          </ol>
+        </section>
+
+        <!-- Sobre el proyecto -->
+        <section class="section" aria-labelledby="h-about">
+          <h2 class="section__title" id="h-about">Sobre el proyecto</h2>
+          <p class="section__text">MAI-Background recorta personas de un vídeo con <strong>matting real</strong> (canal alfa continuo, no una máscara dura): bordes y pelo con precisión, y sin parpadeo entre fotogramas. Usa el modelo <strong>Robust Video Matting</strong> ejecutándose con WebGPU directamente en tu navegador, así que funciona sin conexión una vez cargado.</p>
+          <a class="link-row" href="https://github.com/MAI-Software/MAI-Background" target="_blank" rel="noopener">
+            <span class="link-row__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+            </span>
+            <span class="link-row__body">
+              <strong>Código abierto en GitHub</strong>
+              <span class="link-row__sub">MAI-Software/MAI-Background · revisa cómo funciona</span>
+            </span>
+            <svg class="link-row__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+        </section>
+
+        <!-- Descarga Android -->
+        <section class="section" aria-labelledby="h-apk">
+          <h2 class="section__title" id="h-apk">Llévala en tu Android</h2>
+          <div class="download">
+            <div class="download__head">
+              <span class="download__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+              </span>
+              <p class="download__text">Instálala como app y úsala también sin conexión. La APK se publica en las <strong>Releases</strong> del repositorio.</p>
+            </div>
+            <a class="btn btn--primary btn--block" href="https://github.com/MAI-Software/MAI-Background/releases" target="_blank" rel="noopener">Descargar APK (GitHub Releases)</a>
+            <p class="download__note">También puedes instalarla desde el menú del navegador → «Añadir a pantalla de inicio».</p>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section" aria-labelledby="h-faq">
+          <h2 class="section__title" id="h-faq">Preguntas frecuentes</h2>
+          <div class="faq">
+            <details class="faq__item">
+              <summary>¿Se suben mis vídeos a algún servidor?<span class="faq__mark" aria-hidden="true"></span></summary>
+              <p>No. Todo el procesado ocurre en tu dispositivo, dentro del navegador. Tus vídeos nunca se envían a ningún sitio.</p>
+            </details>
+            <details class="faq__item">
+              <summary>¿Es seguro?<span class="faq__mark" aria-hidden="true"></span></summary>
+              <p>El código es abierto y puedes auditarlo en GitHub. La app no pide cuenta ni permisos especiales y no envía datos por la red tras cargar el modelo.</p>
+            </details>
+            <details class="faq__item">
+              <summary>¿Por qué solo se puede subir y no grabar?<span class="faq__mark" aria-hidden="true"></span></summary>
+              <p>Por privacidad y control: trabajas con vídeos que ya tienes, sin activar la cámara desde la web.</p>
+            </details>
+            <details class="faq__item">
+              <summary>¿Qué formato se exporta?<span class="faq__mark" aria-hidden="true"></span></summary>
+              <p>WebM con el audio original. Con fondo «transparente» conserva el canal alfa para montarlo sobre otra escena.</p>
+            </details>
+            <details class="faq__item">
+              <summary>¿Necesito una GPU potente?<span class="faq__mark" aria-hidden="true"></span></summary>
+              <p>Con WebGPU va fluido. Si tu dispositivo no lo soporta, cae a un modo más lento pero sigue funcionando.</p>
+            </details>
+            <details class="faq__item">
+              <summary>¿Funciona sin conexión?<span class="faq__mark" aria-hidden="true"></span></summary>
+              <p>Sí. Es una PWA: tras la primera carga, el modelo queda cacheado y puedes usarla offline.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+          <a class="site-footer__brand" href="https://mai-software.pages.dev/" target="_blank" rel="noopener">
+            <span class="site-footer__mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/><path d="M3 7l9 4 9-4"/><path d="M12 11v10"/></svg>
+            </span>
+            <span>Hecho por <strong>MAI Software</strong></span>
+          </a>
+          <p class="site-footer__note">Procesado 100% local · sin subidas</p>
+        </footer>
       </section>
 
       <!-- ===================== EDITOR (con vídeo) ===================== -->
@@ -172,7 +256,7 @@
         <div class="export-progress" id="exportProgress" hidden>
           <div class="export-progress__bar"><span id="exportBar"></span></div>
         </div>
-        <p class="tool__note center" id="exportNote">Reproduce el resultado de inicio a fin para grabarlo (WebM).</p>
+        <p class="tool__note center" id="exportNote">Se reproduce de inicio a fin para generar el WebM.</p>
       </section>
     </main>
 
@@ -183,29 +267,8 @@
       </button>
       <button class="btn btn--primary btn--block" id="exportBtn">
         <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-        <span id="exportBtnLabel">Grabar y exportar</span>
+        <span id="exportBtnLabel">Exportar vídeo</span>
       </button>
-    </div>
-  </div>
-
-  <!-- ===================== INFO SHEET ===================== -->
-  <div class="sheet" id="infoSheet" hidden>
-    <div class="sheet__backdrop" data-close></div>
-    <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
-      <div class="sheet__grip" aria-hidden="true"></div>
-      <div class="sheet__head">
-        <h2 id="sheetTitle">MAI-Background</h2>
-        <button class="appbar__btn" data-close aria-label="Cerrar">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <ol class="steps">
-        <li><span class="steps__n">1</span><div><strong>Graba o sube</strong><p>Un vídeo donde aparezca una persona.</p></div></li>
-        <li><span class="steps__n">2</span><div><strong>Elige el fondo</strong><p>Transparente, color, desenfoque, imagen u otro vídeo.</p></div></li>
-        <li><span class="steps__n">3</span><div><strong>Exporta</strong><p>Graba el resultado en WebM con su audio.</p></div></li>
-      </ol>
-      <p class="sheet__note">Todo el procesamiento ocurre en tu dispositivo con IA de matting (RVM). Tus vídeos no se suben a ningún servidor. Optimizado para clips de una persona.</p>
-      <p class="sheet__foot">Instálala como app desde el menú de tu navegador · Hecho por MAI Software</p>
     </div>
   </div>
 

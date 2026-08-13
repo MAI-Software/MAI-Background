@@ -9,7 +9,7 @@
 Sube un video de una persona, quita o reemplaza el fondo en tiempo real y crea
 montajes graciosos y originales. Sin subir nada a un servidor.
 
-[· Demo en vivo ·](https://mai-software.github.io/MAI-Background/) · PWA instalable · 100% local
+PWA instalable · APK Android · 100% local · sin subidas
 
 </div>
 
@@ -31,10 +31,10 @@ montajes graciosos y originales. Sin subir nada a un servidor.
 
 ## 🚀 Uso
 
-1. Abre la [demo](https://mai-software.github.io/MAI-Background/) (o sirve la carpeta localmente).
-2. Arrastra un video donde aparezca una persona.
-3. Elige el tipo de fondo en el panel derecho.
-4. Pulsa **Grabar y exportar** y deja que se reproduzca de inicio a fin.
+1. Abre la app (o sirve la carpeta localmente).
+2. **Sube** o arrastra un vídeo donde aparezca una persona (no se graba desde la cámara: solo subir).
+3. Elige el tipo de fondo.
+4. Pulsa **Exportar vídeo** y deja que se reproduzca de inicio a fin.
 5. Descarga tu `.webm`.
 
 > Optimizado para clips con **una persona** (selfie, baile, presentación). El modelo separa a la persona del fondo.
@@ -65,13 +65,20 @@ npx serve .
 
 Luego abre `http://localhost:8080`.
 
-## 🌐 Despliegue (GitHub Pages)
+## 🌐 Despliegue (Cloudflare Pages)
 
-El repo se publica desde la rama `main` (raíz). Una vez activado Pages:
+Sitio estático, **sin build**. Conecta el repo en Cloudflare Pages con:
 
-```
-https://mai-software.github.io/MAI-Background/
-```
+- Framework preset: **None**
+- Build command: *(vacío)*
+- Output directory: **`/`** (raíz)
+
+### APK de Android
+
+La app es una PWA instalable. Para empaquetar una **APK** (TWA) genérala con
+[PWABuilder](https://www.pwabuilder.com/) apuntando a la URL desplegada, sube el
+`assetlinks.json` que te dé a `/.well-known/`, y publica la APK en las
+[Releases](https://github.com/MAI-Software/MAI-Background/releases) del repo.
 
 ## ⚠️ Compatibilidad
 
