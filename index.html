@@ -48,8 +48,14 @@
           <span class="home__logo" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z" /><path d="M3 7l9 4 9-4" /><path d="M12 11v10" /></svg>
           </span>
-          <h1 class="home__title">Quita el fondo de tus vídeos</h1>
+          <h1 class="home__title">Quita el <span class="accent">fondo</span> de tus vídeos</h1>
           <p class="home__sub">Sube un vídeo y la IA recorta a la persona con precisión — en tu propio dispositivo, sin subir nada.</p>
+          <div class="chips" aria-hidden="true">
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>100% local</span>
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Sin subidas</span>
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Código abierto</span>
+            <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Gratis</span>
+          </div>
         </div>
 
         <div class="dropzone" id="dropzone" aria-label="Zona para soltar un vídeo">
@@ -87,6 +93,41 @@
             <p class="privacy__text">Todo el procesado ocurre en local, dentro de tu navegador. Sin servidores, sin subidas, sin cuentas. El código es abierto y puedes revisarlo.</p>
           </div>
         </div>
+
+        <!-- Features -->
+        <section class="section" aria-labelledby="h-feat">
+          <h2 class="section__title" id="h-feat">Por qué destaca</h2>
+          <div class="features__grid">
+            <div class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+              </span>
+              <span class="feature__title">Recorte con matting real</span>
+              <span class="feature__text">Alfa continuo: pelo, bordes y semitransparencias con precisión, y sin parpadeo entre fotogramas.</span>
+            </div>
+            <div class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+              </span>
+              <span class="feature__title">100% privado</span>
+              <span class="feature__text">Se procesa en tu dispositivo. Tus vídeos no se suben a ningún servidor, nunca.</span>
+            </div>
+            <div class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 9v7"/><path d="M9 13l3 3 3-3"/></svg>
+              </span>
+              <span class="feature__title">Funciona sin conexión</span>
+              <span class="feature__text">Instálala como PWA o APK y úsala offline una vez cargada la primera vez.</span>
+            </div>
+            <div class="feature">
+              <span class="feature__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </span>
+              <span class="feature__title">Gratis y abierto</span>
+              <span class="feature__text">Sin cuentas ni límites. Código abierto en GitHub para que lo revises.</span>
+            </div>
+          </div>
+        </section>
 
         <!-- Cómo funciona -->
         <section class="section" aria-labelledby="h-how">
