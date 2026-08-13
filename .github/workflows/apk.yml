@@ -1,0 +1,61 @@
+name: Build APK and commit
+
+# Cloudflare no puede compilar la APK (no tiene Android SDK). Este workflow la
+# compila en el runner de GitHub y la deja en downloads/MAI-Background.apk.
+# Cloudflare (integración Git) la sirve al reconstruir.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'downloads/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk
+  cancel-in-progress: false
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync android
+
+      - name: Compilar APK debug
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Copiar APK a downloads/
+        run: |
+          mkdir -p downloads
+          cp android/app/build/outputs/apk/debug/app-debug.apk downloads/MAI-Background.apk
+
+      - name: Commit de la APK si cambió
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f downloads/MAI-Background.apk
+          if git diff --cached --quiet; then
+            echo "APK sin cambios"
+          else
+            git commit -m "chore: actualizar APK [skip ci]"
+            git push
+          fi

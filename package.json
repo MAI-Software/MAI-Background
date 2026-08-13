@@ -1,0 +1,15 @@
+{
+  "name": "mai-background",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MAI-Background — recorte de personas en vídeo (matting) 100% local. PWA + APK por MAI Software.",
+  "scripts": {
+    "build": "node scripts/build-www.mjs"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/cli": "^6.2.1",
+    "@capacitor/core": "^6.2.1"
+  }
+}

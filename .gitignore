@@ -12,3 +12,18 @@ node_modules/
 
 # Exported media
 *.webm
+
+# Capacitor build output (www is generated from the static site)
+www/
+
+# Android / Capacitor — native project is committed, build output is not.
+# The APK is built in CI and force-added (git add -f) despite *.apk.
+*.apk
+android/.gradle
+android/build
+android/app/build
+android/local.properties
+android/app/src/main/assets/public
+android/app/src/main/assets/capacitor.config.json
+android/.idea
+android/capacitor-cordova-android-plugins
