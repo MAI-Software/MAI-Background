@@ -12,10 +12,12 @@ const ORT_DIST = `https://cdn.jsdelivr.net/npm/onnxruntime-web@${ORT_VER}/dist/`
 const MODEL_URL = 'models/rvm_mobilenetv3_fp32.onnx';
 
 // Cap the longest processed side. Higher = more detail (hair) but slower.
-// ~960 is the sweet spot: below it fps plateaus (fixed GPU transfer overhead).
+// The decoder/refiner runs at this resolution (edge sharpness).
 const PROC_CAP = 960;
-// Aim the internal downsampled side at ~512 px (RVM sweet spot: 256–512).
-const TARGET_DOWNSAMPLE = 512;
+// Aim the internal ENCODER (downsampled) side at ~256 px. This is what RVM
+// segments on: too high (>~400) or too low (<~180) and it stops detecting the
+// person. Measured sweet spot is ~230–280 for portraits; 256 is a safe target.
+const TARGET_DOWNSAMPLE = 256;
 
 function zeroState() {
   return new ort.Tensor('float32', new Float32Array(1), [1, 1, 1, 1]);
