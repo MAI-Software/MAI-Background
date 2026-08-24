@@ -190,7 +190,11 @@ async function onVideoReady() {
     RVM.setSize(state.nativeW, state.nativeH);
     RVM.resetState();
     state.modelReady = true;
-    await renderFrame();   // warm up + first paint
+    // Warm up the recurrent memory on the first frame so the initial preview
+    // is a stable matte, not the rough first pass.
+    setStatus('Preparando recorte…', true);
+    for (let k = 0; k < 4; k++) await RVM.process(video);
+    await renderFrame();   // first visible paint
     setStatus('', false);
   } catch (e) {
     setStatus('Error al iniciar la IA. Recarga la página.', false);

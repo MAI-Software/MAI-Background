@@ -11,13 +11,18 @@ const ORT_VER  = '1.23.0';
 const ORT_DIST = `https://cdn.jsdelivr.net/npm/onnxruntime-web@${ORT_VER}/dist/`;
 const MODEL_URL = 'models/rvm_mobilenetv3_fp32.onnx';
 
-// Cap the longest processed side. Higher = more detail (hair) but slower.
-// The decoder/refiner runs at this resolution (edge sharpness).
+// Cap the longest processed side (the refiner runs here → edge sharpness).
 const PROC_CAP = 960;
-// Aim the internal ENCODER (downsampled) side at ~256 px. This is what RVM
-// segments on: too high (>~400) or too low (<~180) and it stops detecting the
-// person. Measured sweet spot is ~230–280 for portraits; 256 is a safe target.
-const TARGET_DOWNSAMPLE = 256;
+
+// RVM segments on the internally-downsampled input. Its recommended ratios all
+// land the downsampled longer side around ~270 px (1080p×0.25, 720p×0.375 ≈ 270),
+// so keep the encoder there regardless of source size. A ratio far above this
+// was the original "person erased" bug (blind encoder); far below misses too.
+// Clamp to RVM's sane range [0.15, 0.5].
+const TARGET_DOWNSAMPLE = 272;
+function ratioForLongestSide(longest) {
+  return Math.max(0.15, Math.min(0.5, TARGET_DOWNSAMPLE / longest));
+}
 
 function zeroState() {
   return new ort.Tensor('float32', new Float32Array(1), [1, 1, 1, 1]);
@@ -86,7 +91,7 @@ export const RVM = {
     pw -= pw % 2; ph -= ph % 2;
     this.procW = pw; this.procH = ph;
 
-    const r = Math.min(1, TARGET_DOWNSAMPLE / Math.max(pw, ph));
+    const r = ratioForLongestSide(Math.max(pw, ph));
     this.ratio = new ort.Tensor('float32', new Float32Array([r]), [1]);
 
     this.src = new Float32Array(3 * pw * ph);
