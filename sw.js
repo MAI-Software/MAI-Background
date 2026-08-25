@@ -1,5 +1,5 @@
 /* MAI-Background service worker — offline app shell */
-const CACHE = 'mai-background-v10';
+const CACHE = 'mai-background-v11';
 const ASSETS = [
   './',
   './index.html',

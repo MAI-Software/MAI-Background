@@ -44,7 +44,7 @@ PWA instalable · APK Android · 100% local · sin subidas
 | Capa | Detalle |
 |------|---------|
 | UI | HTML + CSS (sin framework), tema Dark OLED, tipografía Inter |
-| IA | Robust Video Matting (`rvm_mobilenetv3_fp32.onnx`) vía [onnxruntime-web](https://onnxruntime.ai/docs/tutorials/web/) — **WebGPU** con fallback a **WASM** |
+| IA | Robust Video Matting (`rvm_mobilenetv3_fp32.onnx`) vía [onnxruntime-web](https://onnxruntime.ai/docs/tutorials/web/) — backend **WASM** (SIMD) |
 | Render | `<canvas>` 2D con compositing (`destination-over`) |
 | Export | `canvas.captureStream()` + `MediaRecorder` (VP9/VP8 + audio) |
 | App | PWA (manifest + service worker, offline-first) |
@@ -82,8 +82,9 @@ La app es una PWA instalable. Para empaquetar una **APK** (TWA) genérala con
 
 ## ⚠️ Compatibilidad
 
-- Chrome / Edge / Chromium con **WebGPU**: rendimiento óptimo (recomendado).
-- Sin WebGPU: cae a WASM (single-thread) — funciona, pero más lento.
+- La inferencia usa el backend **WASM (SIMD)** de onnxruntime-web. El EP
+  WebGPU de onnxruntime-web produce un matte incorrecto para RVM, así que
+  se fuerza WASM (correcto en todos los navegadores).
 - Safari: matting funciona; el formato de exportación WebM puede variar.
 
 ## 📄 Licencia

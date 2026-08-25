@@ -12,7 +12,8 @@ const ORT_DIST = `https://cdn.jsdelivr.net/npm/onnxruntime-web@${ORT_VER}/dist/`
 const MODEL_URL = 'models/rvm_mobilenetv3_fp32.onnx';
 
 // Cap the longest processed side (the refiner runs here → edge sharpness).
-const PROC_CAP = 960;
+// 640 keeps WASM inference ~10-20fps while giving clean edges on 16:9 / 9:16.
+const PROC_CAP = 640;
 
 // RVM segments on the internally-downsampled input. Its recommended ratios all
 // land the downsampled longer side around ~270 px (1080p×0.25, 720p×0.375 ≈ 270),
@@ -64,16 +65,19 @@ export const RVM = {
 
   async init(onProgress) {
     ort.env.wasm.wasmPaths = ORT_DIST;
-    ort.env.wasm.numThreads = 1;            // no COOP/COEP → single thread
+    // Threads need cross-origin isolation (COOP/COEP); otherwise ort uses 1.
+    ort.env.wasm.numThreads = self.crossOriginIsolated
+      ? Math.min(4, navigator.hardwareConcurrency || 4) : 1;
     const buf = await fetchModel(MODEL_URL, onProgress);
-    const providers = [];
-    if (navigator.gpu) providers.push('webgpu');
-    providers.push('wasm');
+    // WASM ONLY. The onnxruntime-web WebGPU EP (1.23) produces a broken matte
+    // for RVM — soft, capped ~0.83, missing ~half the person → the subject gets
+    // erased. WASM matches the reference output (clean, near-binary). Verified
+    // side by side. SIMD single-thread is ~10-20fps at PROC_CAP, which is fine.
     this.session = await ort.InferenceSession.create(buf, {
-      executionProviders: providers,
+      executionProviders: ['wasm'],
       graphOptimizationLevel: 'all',
     });
-    this.provider = navigator.gpu ? 'webgpu' : 'wasm';
+    this.provider = 'wasm';
     this.resetState();
   },
 
