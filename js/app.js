@@ -371,6 +371,10 @@ exportBtn.addEventListener('click', async () => {
   exportProgress.hidden = false;
   exportNote.textContent = 'No cierres esta pestaña. Procesando de inicio a fin…';
 
+  // Export at full quality, independent of the fast live-preview resolution.
+  RVM.setSize(state.nativeW, state.nativeH, true);
+  RVM.resetState();
+
   video.pause();
   video.currentTime = 0;
   await once(video, 'seeked');
@@ -399,6 +403,8 @@ function finishExport() {
   exportNote.textContent = 'Se reproduce de inicio a fin para generar el WebM.';
   exportBar.style.width = '0%';
   exportProgress.hidden = true;
+  // Back to the fast preview resolution for live playback.
+  if (state.modelReady) { RVM.setSize(state.nativeW, state.nativeH, false); RVM.resetState(); }
 }
 
 function downloadBlob(blob) {

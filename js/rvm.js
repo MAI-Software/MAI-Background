@@ -12,8 +12,11 @@ const ORT_DIST = `https://cdn.jsdelivr.net/npm/onnxruntime-web@${ORT_VER}/dist/`
 const MODEL_URL = 'models/rvm_mobilenetv3_fp32.onnx';
 
 // Cap the longest processed side (the refiner runs here → edge sharpness).
-// 640 keeps WASM inference ~10-20fps while giving clean edges on 16:9 / 9:16.
-const PROC_CAP = 640;
+// Preview stays low so live playback is smooth; export uses the higher cap so
+// the downloaded file keeps full quality. WASM is the bottleneck, so this is
+// the safe way to speed up playback without touching the result.
+const PREVIEW_CAP = 384;
+const EXPORT_CAP  = 640;
 
 // RVM segments on the internally-downsampled input. Its recommended ratios all
 // land the downsampled longer side around ~270 px (1080p×0.25, 720p×0.375 ≈ 270),
@@ -88,9 +91,12 @@ export const RVM = {
   },
 
   // Derive processing resolution + downsample ratio from the source dimensions.
-  setSize(w, h) {
+  // hq=true uses the higher export cap (full quality); default is the fast
+  // preview cap. Switching caps needs resetState() (recurrent shapes change).
+  setSize(w, h, hq = false) {
+    const cap = hq ? EXPORT_CAP : PREVIEW_CAP;
     const long = Math.max(w, h);
-    const scale = long > PROC_CAP ? PROC_CAP / long : 1;
+    const scale = long > cap ? cap / long : 1;
     let pw = Math.round(w * scale), ph = Math.round(h * scale);
     pw -= pw % 2; ph -= ph % 2;
     this.procW = pw; this.procH = ph;
