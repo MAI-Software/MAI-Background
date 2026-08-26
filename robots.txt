@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# La raiz del repo se sirve tal cual, asi que hay ficheros de desarrollo
+# accesibles que no aportan nada en buscadores.
+Disallow: /android/
+Disallow: /scripts/
+Disallow: /models/
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /capacitor.config.json
+
+Sitemap: https://mai-background.pages.dev/sitemap.xml
